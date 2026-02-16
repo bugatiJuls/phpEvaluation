@@ -64,7 +64,7 @@ $questions = $conn->query("SELECT * FROM tbl_questions ORDER BY q_id");
         </select>
     </div>
 
-        <table class="user-table">
+        <table class="eval-table">
             <thead>
                 <tr>
                     <th>Question</th>

@@ -29,13 +29,13 @@ if ($u_type === 'Admin') {
               FROM tbl_evaluations e 
               JOIN tbl_teachers t ON e.t_id = t.t_id
               JOIN tbl_user u ON e.u_id = u.u_id
-              ORDER BY e.e_status ASC, e.e_date DESC";
+              ORDER BY e.e_status ASC, e.date_added DESC";
 } else {
     $query = "SELECT e.*, CONCAT(t.t_first_name, ' ', t.t_last_name) as teacher_name 
               FROM tbl_evaluations e 
               JOIN tbl_teachers t ON e.t_id = t.t_id 
               WHERE e.t_id IN (SELECT t_id FROM tbl_teachers WHERE t_user_id = $u_id)
-              ORDER BY e.e_date DESC";
+              ORDER BY e.date_added DESC";
 }
 $result = $conn->query($query);
 ?>
@@ -156,7 +156,7 @@ $result = $conn->query($query);
                             <td><?php echo htmlspecialchars($row['student_name']); ?></td>
                             <?php endif; ?>
                             <td><?php echo htmlspecialchars($row['teacher_name']); ?></td>
-                            <td><?php echo date('M d, Y', strtotime($row['e_date'])); ?></td>
+                            <td><?php echo date('M d, Y', strtotime($row['date_added'])); ?></td>
                             <td><span class="status-badge status-<?php echo strtolower($row['e_status']); ?>"><?php echo ucfirst($row['e_status']); ?></span></td>
                             <?php if ($u_type === 'Admin'): ?>
                             <td>

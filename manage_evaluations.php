@@ -31,7 +31,7 @@ $query = "SELECT e.*,
           JOIN tbl_teachers t ON e.t_id = t.t_id
           JOIN tbl_user u ON e.u_id = u.u_id
           LEFT JOIN tbl_courses c ON e.c_id = c.c_id
-          ORDER BY e.e_status ASC, e.e_date DESC";
+          ORDER BY e.e_status ASC, e.date_added DESC";
           
 $result = $conn->query($query);
 ?>
@@ -166,7 +166,7 @@ $result = $conn->query($query);
                             <td><?php echo htmlspecialchars($row['student_name']); ?></td>
                             <td><?php echo htmlspecialchars($row['teacher_name']); ?></td>
                             <td><?php echo htmlspecialchars($row['course_name']); ?></td>
-                            <td><?php echo date('M d, Y H:i', strtotime($row['e_date'])); ?></td>
+                            <td><?php echo date('M d, Y H:i', strtotime($row['date_added'])); ?></td>
                             <td><span class="status-badge status-<?php echo strtolower($row['e_status']); ?>"><?php echo ucfirst($row['e_status']); ?></span></td>
                             <td>
                                 <form method="POST" class="action-form">

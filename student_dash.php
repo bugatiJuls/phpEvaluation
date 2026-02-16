@@ -119,18 +119,18 @@ $has_pending = ($pending_evals && $pending_evals->num_rows > 0);
             <tbody>
                 <?php
                 $completed_evals = $conn->query("
-                    SELECT t.t_first_name, t.t_last_name, t.t_department, e.e_date
+                    SELECT t.t_first_name, t.t_last_name, t.t_department, e.date_added
                     FROM tbl_evaluations e
                     JOIN tbl_teachers t ON e.t_id = t.t_id
                     WHERE e.u_id = $u_id
-                    ORDER BY e.e_date DESC
+                    ORDER BY e.date_added DESC
                 ");
                 if ($completed_evals && $completed_evals->num_rows > 0): ?>
                     <?php while($row = $completed_evals->fetch_assoc()): ?>
                     <tr>
                         <td><?php echo $row['t_first_name'] . " " . $row['t_last_name']; ?></td>
                         <td><?php echo $row['t_department']; ?></td>
-                        <td><?php echo date('M d, Y', strtotime($row['e_date'])); ?></td>
+                        <td><?php echo date('M d, Y', strtotime($row['date_added'])); ?></td>
                     </tr>
                     <?php endwhile; ?>
                 <?php else: ?>

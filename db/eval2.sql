@@ -26,13 +26,25 @@ USE `eval2`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_departments`
+--
+
+CREATE TABLE `tbl_departments` (
+  `d_id` int(11) NOT NULL,
+  `d_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_courses`
 --
 
 CREATE TABLE `tbl_courses` (
   `c_id` int(11) NOT NULL,
   `c_name` varchar(100) NOT NULL,
-  `c_code` varchar(50) NOT NULL
+  `c_code` varchar(50) NOT NULL,
+  `d_id` int(11) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -47,6 +59,7 @@ CREATE TABLE `tbl_evaluations` (
   `t_id` int(11) NOT NULL,
   `c_id` int(11) NOT NULL,
   `e_responses` text NOT NULL,
+  `e_status` varchar(50) DEFAULT 'Pending',
   `date_added` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -58,9 +71,22 @@ CREATE TABLE `tbl_evaluations` (
 
 CREATE TABLE `tbl_teachers` (
   `t_id` int(11) NOT NULL,
+  `t_user_id` int(11) NULL,
   `t_first_name` varchar(100) NOT NULL,
   `t_last_name` varchar(100) NOT NULL,
   `t_department` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_teacher_courses`
+--
+
+CREATE TABLE `tbl_teacher_courses` (
+  `tc_id` int(11) NOT NULL,
+  `t_id` int(11) NOT NULL,
+  `c_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -80,9 +106,39 @@ CREATE TABLE `tbl_user` (
   `u_image` varchar(255) DEFAULT 'default.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_questions`
+--
+
+CREATE TABLE `tbl_questions` (
+  `q_id` int(11) NOT NULL,
+  `q_category` int(11) NULL,
+  `q_text` text NOT NULL,
+  `q_type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_question_categories`
+--
+
+CREATE TABLE `tbl_question_categories` (
+  `cat_id` int(11) NOT NULL,
+  `cat_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_departments`
+--
+ALTER TABLE `tbl_departments`
+  ADD PRIMARY KEY (`d_id`);
 
 --
 -- Indexes for table `tbl_courses`
@@ -103,14 +159,38 @@ ALTER TABLE `tbl_teachers`
   ADD PRIMARY KEY (`t_id`);
 
 --
+-- Indexes for table `tbl_teacher_courses`
+--
+ALTER TABLE `tbl_teacher_courses`
+  ADD PRIMARY KEY (`tc_id`);
+
+--
 -- Indexes for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
   ADD PRIMARY KEY (`u_id`);
 
 --
+-- Indexes for table `tbl_questions`
+--
+ALTER TABLE `tbl_questions`
+  ADD PRIMARY KEY (`q_id`);
+
+--
+-- Indexes for table `tbl_question_categories`
+--
+ALTER TABLE `tbl_question_categories`
+  ADD PRIMARY KEY (`cat_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `tbl_departments`
+--
+ALTER TABLE `tbl_departments`
+  MODIFY `d_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_courses`
@@ -131,10 +211,29 @@ ALTER TABLE `tbl_teachers`
   MODIFY `t_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_teacher_courses`
+--
+ALTER TABLE `tbl_teacher_courses`
+  MODIFY `tc_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
   MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_questions`
+--
+ALTER TABLE `tbl_questions`
+  MODIFY `q_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_question_categories`
+--
+ALTER TABLE `tbl_question_categories`
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

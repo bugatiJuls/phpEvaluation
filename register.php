@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="input-group">
                 <label>Last Name</label>
-                <input type="text" name="u_last_name" placeholder="Palautog" required>
+                <input type="text" name="u_last_name" placeholder="Camps" required>
             </div>
         </div>
 

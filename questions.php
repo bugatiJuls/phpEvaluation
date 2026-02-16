@@ -14,13 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_question'])) {
     $text = $_POST['q_text'];
 
     $stmt = $conn->prepare("INSERT INTO tbl_questions (q_category, q_text) VALUES (?, ?)");
-    $stmt->bind_param("ss", $category, $text);
+    $stmt->bind_param("is", $category, $text);
     $stmt->execute();
     $stmt->close();
 }
 
 // Fetch Questions
-$questions = $conn->query("SELECT * FROM tbl_questions ORDER BY q_category ASC");
+$questions = $conn->query("SELECT q.*, c.cat_name FROM tbl_questions q LEFT JOIN tbl_question_categories c ON q.q_category = c.cat_id ORDER BY c.cat_name ASC");
 
 // Fetch Categories
 $categories = $conn->query("SELECT * FROM tbl_question_categories ORDER BY cat_name ASC");
@@ -62,7 +62,7 @@ $categories = $conn->query("SELECT * FROM tbl_question_categories ORDER BY cat_n
                         $categories->data_seek(0);
                         if ($categories && $categories->num_rows > 0):
                             while($cat = $categories->fetch_assoc()): ?>
-                            <option value="<?php echo htmlspecialchars($cat['cat_name']); ?>"><?php echo htmlspecialchars($cat['cat_name']); ?></option>
+                            <option value="<?php echo htmlspecialchars($cat['cat_id']); ?>"><?php echo htmlspecialchars($cat['cat_name']); ?></option>
                         <?php endwhile;
                         endif; ?>
                     </select>
@@ -89,7 +89,7 @@ $categories = $conn->query("SELECT * FROM tbl_question_categories ORDER BY cat_n
                         <?php if ($questions->num_rows > 0): ?>
                             <?php while($row = $questions->fetch_assoc()): ?>
                             <tr>
-                                <td><span class="category-tag"><?php echo $row['q_category']; ?></span></td>
+                                <td><span class="category-tag"><?php echo htmlspecialchars($row['cat_name'] ?? 'Uncategorized'); ?></span></td>
                                 <td><?php echo $row['q_text']; ?></td>
                                 <td>
                                     <div class="action-btns">
